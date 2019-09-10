@@ -1,2 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.leo.service" />
+    package="com.leo.service" >
+    <application>
+        <service android:name=".BookService"
+            android:process=":process"/>
+        <activity android:name=".ServiceActivity"/>
+    </application>
+</manifest>
