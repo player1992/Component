@@ -32,6 +32,18 @@ public class BookService extends Service {
         super.onCreate();
         System.out.println("------onCreate------");
         System.out.printf("onCreate thread : %s", Thread.currentThread().getName());
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                throw new NullPointerException("Crash Message");
+            }
+        }, 3000);
+    }
+
+    @Override
+    public void onRebind(Intent intent) {
+        System.out.println("------onRebind------");
+        super.onRebind(intent);
     }
 
     @Override
@@ -40,10 +52,20 @@ public class BookService extends Service {
         return super.onUnbind(intent);
     }
 
+    @Override
+    public void onDestroy() {
+        System.out.println("------onDestroy------");
+        super.onDestroy();
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         System.out.println("------onStartCommand------");
+        System.out.println("------intent------"+intent);
+//        return START_STICKY_COMPATIBILITY; //异常重启的时候只会调用onCreate
+//        return START_STICKY;//异常重启的时候会调用onCreate和onStartCommand，但是intent=null
+//        return START_NOT_STICKY;//异常重启的时候不会调用onCreate和onStartCommand
+//        return START_REDELIVER_INTENT;//异常重启的时候会调用onCreate和onStartCommand,一并回传intent
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -84,11 +106,16 @@ public class BookService extends Service {
                 mBinder.add(new Book("程序员的数学"));
                 mBinder.add(new Book("数据结构与算法分析"));
                 mBinder.add(new Book("Http权威指南"));
-                obj.notifyBooks(mList);
+                if (obj != null) {
+                    //确保服务没有异常终止
+                    obj.notifyBooks(mList);
+                }
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
 
         }
     }
+
+
 }

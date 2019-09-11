@@ -42,11 +42,18 @@ public class ServiceActivity extends AppCompatActivity {
         Intent intent = new Intent(this, BookService.class);
         bindService = bindService(intent, mConn, BIND_AUTO_CREATE);
         System.out.println("bindService : " + bindService);
+
     }
 
     public void kill(View view) {
         Intent intent = new Intent(this, BookService.class);
         stopService(intent);
+    }
+
+    private int pid;
+    public void killProcess(View view) {
+        System.out.println("杀死进程 ："+pid);
+        Process.killProcess(pid);
     }
 
     public void unbind(View view) {
@@ -65,17 +72,19 @@ public class ServiceActivity extends AppCompatActivity {
         }
     }
 
+    private IBookManager bookManager;
     private ServiceConnection mConn = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            IBookManager bookManager = IBookManager.Stub.asInterface(service);
+            bookManager = IBookManager.Stub.asInterface(service);
             System.out.println("------onServiceConnected-------");
             System.out.println(Thread.currentThread().getName());
             try {
                 //用于实现服务推送数据
                 bookManager.register(mCallback);
                 //服务进程
-                int pid = bookManager.getPid();
+                service.linkToDeath(mDeathRecipient,0);
+                pid = bookManager.getPid();
                 System.out.println("pid : " + pid);
                 //本地应用进程
                 System.out.println("pid : " + Process.myPid());
@@ -96,7 +105,7 @@ public class ServiceActivity extends AppCompatActivity {
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            //Crash 异常终止的情况下会调用
+            //Crash 异常终止的情况下会调用,比如手动killProcess
             System.out.println("------onServiceDisconnected-------");
             System.out.println(Thread.currentThread().getName());
         }
@@ -110,6 +119,19 @@ public class ServiceActivity extends AppCompatActivity {
                 for (Book book : obj) {
                     System.out.println(book.toString());
                 }
+            }
+        }
+    };
+
+    //设置死亡代理，服务端异常终止的时候，能够通知到客户端
+    IBinder.DeathRecipient mDeathRecipient = new IBinder.DeathRecipient() {
+        @Override
+        public void binderDied() {
+            //死亡通知不在UI线程，在Binder线程池中
+            System.out.println("-----binderDied-----:" + bookManager);
+            System.out.println(Thread.currentThread().getName());
+            if (bookManager != null) {
+                bookManager.asBinder().unlinkToDeath(mDeathRecipient, 0);
             }
         }
     };
