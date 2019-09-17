@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.leo.activity.ActActivity;
 import com.leo.service.ServiceActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -16,7 +17,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void activity(View view) {
-
+        Intent intent = new Intent(this, ActActivity.class);
+        startActivity(intent);
     }
 
     public void service(View view) {
