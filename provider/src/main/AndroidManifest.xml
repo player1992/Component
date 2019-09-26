@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.leo.provider">
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <permission android:name="com.leo.provider.bookProvider"/>
+    <application>
+        <activity android:name=".ContentProviderActivity"/>
+
+        <provider
+            android:name="com.leo.provider.BookProvider"
+            android:permission="com.leo.provider.bookProvider"
+            android:process=":provider"
+            android:authorities="com.leo.provider.bp" />
+
+    </application>
+
+</manifest>
