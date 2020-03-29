@@ -22,4 +22,13 @@
         app:layout_constraintTop_toBottomOf="@id/startActivityForResult"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/startSelf"
+        android:text="开启自身"
+        android:onClick="startSelf"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/startActivityOut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </android.support.constraint.ConstraintLayout>

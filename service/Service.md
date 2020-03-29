@@ -20,6 +20,8 @@
 
 ​	可以先`startService`再`bindService`，或者先bind再start，声明周期是一样的，`onCreate`都只会执行一次
 
+> 如果混合开启Service，unbind之后不stopService，再次bindService，会回调rebind方法
+
 #### 4.关闭Service
 
 	> `startService` -> `stopService`

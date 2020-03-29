@@ -27,6 +27,7 @@ public class ServiceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_service);
     }
 
+
     public void start(View view) {
         Intent intent = new Intent(this, BookService.class);
         startService(intent);

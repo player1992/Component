@@ -1,1 +1,1 @@
-include ':app', ':activity', ':service', ':provider'
+include ':app', ':activity', ':service', ':provider', ':receiver'

@@ -2,6 +2,8 @@ package com.leo.activity;
 
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,10 +19,26 @@ public class ActActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_act);
         Log.e(TAG, "onCreate");
+
+
+    }
+
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.e(TAG, "onSaveInstanceState");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.e(TAG, "onRestoreInstanceState");
     }
 
     public void startActivityForResult(View view) {
-        startActivityForResult(new Intent(this, ResultActivity.class), 999);
+        startActivityForResult(new Intent(getApplicationContext(), ResultActivity.class), 999);
     }
 
     public void startActivityOut(View view) {
@@ -30,7 +48,7 @@ public class ActActivity extends AppCompatActivity {
         //开启外部应用的指定页
         ComponentName componentName = new ComponentName("com.leo.ipc", "com.leo.ipc.ThirdActivity");
         intent.setComponent(componentName);
-        startActivityForResult(intent,998);
+        startActivityForResult(intent, 998);
     }
 
     @Override
@@ -45,6 +63,7 @@ public class ActActivity extends AppCompatActivity {
         super.onActivityReenter(resultCode, data);
         Log.e(TAG, "onActivityReenter" + data + "---" + resultCode);
     }
+
 
     @Override
     protected void onStart() {
@@ -81,5 +100,16 @@ public class ActActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.e(TAG, "onResume");
+    }
+
+    public void startSelf(View view) {
+        Intent intent = new Intent(getApplicationContext(), ActActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.e(TAG, "onNewIntent");
     }
 }

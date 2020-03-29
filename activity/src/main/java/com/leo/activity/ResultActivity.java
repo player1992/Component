@@ -1,12 +1,18 @@
 package com.leo.activity;
 
+import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-public class ResultActivity extends AppCompatActivity {
+import java.lang.ref.WeakReference;
+
+public class ResultActivity extends Activity {
 
     private static final String TAG = "ResultActivity";
 
@@ -59,5 +65,17 @@ public class ResultActivity extends AppCompatActivity {
         intent.putExtra("key","OK");
         setResult(001,intent);
         finish();
+    }
+
+
+    public void startOrigin(View view) {
+        Intent intent = new Intent(getApplicationContext(), ActActivity.class);
+        startActivity(intent);
+    }
+    public void startMain(View view) {
+        Intent intent = new Intent();
+        ComponentName componentName = new ComponentName("com.leo.component", "com.leo.component.MainActivity");
+        intent.setComponent(componentName);
+        startActivity(intent);
     }
 }

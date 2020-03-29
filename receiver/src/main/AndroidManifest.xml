@@ -1,0 +1,27 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.leo.receiver">
+    <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
+    <application>
+
+        <activity android:name=".ReceiverActivity" />
+
+        <receiver android:name=".TargetReceiver">
+            <intent-filter android:priority="800">
+                <action android:name="com.leo.receiver.TARGET" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".MiddleReceiver">
+            <intent-filter android:priority="500">
+                <action android:name="com.leo.receiver.TARGET" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".LowReceiver">
+            <intent-filter
+                android:priority="100">
+                <action android:name="com.leo.receiver.TARGET" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

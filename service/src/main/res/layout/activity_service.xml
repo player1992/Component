@@ -25,7 +25,7 @@
     <Button
         android:id="@+id/killService"
         app:layout_constraintTop_toBottomOf="@id/bindService"
-        android:text="Kill Service"
+        android:text="Stop Service"
         android:onClick="kill"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

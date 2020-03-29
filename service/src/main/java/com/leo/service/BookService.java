@@ -31,13 +31,15 @@ public class BookService extends Service {
     public void onCreate() {
         super.onCreate();
         System.out.println("------onCreate------");
-        System.out.printf("onCreate thread : %s", Thread.currentThread().getName());
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                throw new NullPointerException("Crash Message");
-            }
-        }, 3000);
+        System.out.printf("onCreate thread : %s\n", Thread.currentThread().getName());
+
+        //测试异常重启情况
+//        mHandler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                throw new NullPointerException("Crash Message");
+//            }
+//        }, 3000);
     }
 
     @Override
@@ -49,7 +51,7 @@ public class BookService extends Service {
     @Override
     public boolean onUnbind(Intent intent) {
         System.out.println("------onUnbind------");
-        return super.onUnbind(intent);
+        return true;
     }
 
     @Override
@@ -62,11 +64,13 @@ public class BookService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         System.out.println("------onStartCommand------");
         System.out.println("------intent------"+intent);
-//        return START_STICKY_COMPATIBILITY; //异常重启的时候只会调用onCreate
-//        return START_STICKY;//异常重启的时候会调用onCreate和onStartCommand，但是intent=null
+        System.out.println("------startId------"+startId);
+//        startService之后没有stopService，异常杀死进程的时候会重启Service，
+//        return START_STICKY_COMPATIBILITY; //只会调用onCreate
+//        return START_STICKY;//异常重启的时候会调用onCreate和onStartCommand，但是intent=null，startId也不一致
 //        return START_NOT_STICKY;//异常重启的时候不会调用onCreate和onStartCommand
 //        return START_REDELIVER_INTENT;//异常重启的时候会调用onCreate和onStartCommand,一并回传intent
-        return super.onStartCommand(intent, flags, startId);
+        return Service.START_STICKY_COMPATIBILITY;
     }
 
 
