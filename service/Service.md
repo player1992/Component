@@ -119,7 +119,7 @@ mStartCompatibility = getApplicationInfo().targetSdkVersion
 
 也就是Android 2.0（5）版本为界限
 
-我们能返回的值一共4个
+我们能返回的值一共4个,测试的时候在Service中抛个异常
 
 ```java
 @IntDef(flag = false, prefix = { "START_" }, value = {

@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.leo.fragment" >
+    <application>
+
+        <activity android:name=".FragmentMainActivity"/>
+        <activity android:name=".ResultActivity"/>
+    </application>
+</manifest>

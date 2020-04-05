@@ -8,5 +8,7 @@
 
 #### [3.ContentProvider](./provider/provider.md)
 
-#### [4.BroadcastReceiver]()
+#### [4.BroadcastReceiver](./receiver/receiver.md)
+
+#### [5.Fragment]()
 
