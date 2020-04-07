@@ -53,7 +53,7 @@ public class ReceiverActivity extends Activity {
         intent.setAction("com.leo.receiver.TARGET");
         intent.setPackage(getPackageName());
 //        intent.addFlags(Intent.FLAG_RECEIVER_INCLUDE_BACKGROUND);
-//        sendBroadcast(intent);
+        sendBroadcast(intent);
         sendOrderedBroadcast(intent, null);
     }
 
