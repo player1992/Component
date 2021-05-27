@@ -18,9 +18,9 @@
 
 ####3.startService&bindService
 
-​	可以先`startService`再`bindService`，或者先bind再start，声明周期是一样的，`onCreate`都只会执行一次
+​	可以先`startService`再`bindService`，或者先bind再start，生命周期是一样的，`onCreate`都只会执行一次
 
-> 如果混合开启Service，unbind之后不stopService，再次bindService，会回调rebind方法
+> 如果混合开启Service，unbind之后不stopService，再次bindService，会回调`onServiceConnected`和`rebind`方法
 
 #### 4.关闭Service
 
@@ -137,3 +137,4 @@ mStartCompatibility = getApplicationInfo().targetSdkVersion
 > START_NOT_STICKY;//异常重启的时候不会调用onCreate和onStartCommand
 >
 > START_REDELIVER_INTENT;//异常重启的时候会调用onCreate和onStartCommand,一并回传intent
+

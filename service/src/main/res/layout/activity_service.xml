@@ -49,5 +49,24 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/throwError"
+        app:layout_constraintTop_toBottomOf="@id/unbindService"
+        android:text="Throw Error"
+        android:onClick="throwError"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/another"
+        app:layout_constraintTop_toBottomOf="@id/throwError"
+        android:text="Goto Another"
+        android:onClick="goToAnother"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 
 </android.support.constraint.ConstraintLayout>

@@ -2,7 +2,6 @@ package com.leo.service;
 
 import android.app.Service;
 import android.content.Intent;
-import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -11,6 +10,8 @@ import android.os.RemoteException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * <p>Date:2019-09-10.11:33</p>
@@ -20,19 +21,24 @@ import java.util.List;
 public class BookService extends Service {
 
     private List<Book> mList = new ArrayList<>();
-
+    Timer  mStartTimer = new Timer();
+    Timer  mBindTimer = new Timer();
+    Task mStartTask = new Task("------start running------");
+    Task mBindTask = new Task("------bind running------");
     @Override
     public IBinder onBind(Intent intent) {
         System.out.println("------onBind------");
+        mBindTimer.scheduleAtFixedRate(mBindTask, 2000,2000);
         return mBinder;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
+
         System.out.println("------onCreate------");
         System.out.printf("onCreate thread : %s\n", Thread.currentThread().getName());
-
+        mStartTimer.scheduleAtFixedRate( mStartTask, 2000, 2000);
         //测试异常重启情况
 //        mHandler.postDelayed(new Runnable() {
 //            @Override
@@ -51,12 +57,14 @@ public class BookService extends Service {
     @Override
     public boolean onUnbind(Intent intent) {
         System.out.println("------onUnbind------");
+        mBindTimer.cancel();
         return true;
     }
 
     @Override
     public void onDestroy() {
         System.out.println("------onDestroy------");
+        mStartTimer.cancel();
         super.onDestroy();
     }
 
@@ -70,7 +78,7 @@ public class BookService extends Service {
 //        return START_STICKY;//异常重启的时候会调用onCreate和onStartCommand，但是intent=null，startId也不一致
 //        return START_NOT_STICKY;//异常重启的时候不会调用onCreate和onStartCommand
 //        return START_REDELIVER_INTENT;//异常重启的时候会调用onCreate和onStartCommand,一并回传intent
-        return Service.START_STICKY_COMPATIBILITY;
+        return Service.START_NOT_STICKY;//不要再重启服务了
     }
 
 
@@ -121,5 +129,16 @@ public class BookService extends Service {
         }
     }
 
+    static class Task extends TimerTask{
+        private String msg;
+        public Task(String msg) {
+            this.msg = msg;
+        }
+
+        @Override
+        public void run() {
+            System.out.println(msg);
+        }
+    }
 
 }

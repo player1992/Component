@@ -1,7 +1,8 @@
 package com.leo.service;
 
 import android.content.ComponentName;
-import android.content.ContentProvider;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import java.util.List;
+import java.util.WeakHashMap;
 
 /**
  * <p>Date:2019-09-10.11:28</p>
@@ -40,15 +42,19 @@ public class ServiceActivity extends AppCompatActivity {
 //        Intent intent = new Intent();
 //        intent.setComponent(new ComponentName("com.leo.ipc", "com.leo.ipc.service.AidlService"));
         //打开内部Service
+
         Intent intent = new Intent(this, BookService.class);
         bindService = bindService(intent, mConn, BIND_AUTO_CREATE);
         System.out.println("bindService : " + bindService);
-
     }
 
     public void kill(View view) {
         Intent intent = new Intent(this, BookService.class);
         stopService(intent);
+    }
+
+    public void throwError(View view) {
+        throw new NullPointerException("Test error");
     }
 
     private int pid;
@@ -136,4 +142,8 @@ public class ServiceActivity extends AppCompatActivity {
             }
         }
     };
+
+    public void goToAnother(View view) {
+        startActivity(new Intent(this,ServiceTwoActivity.class));
+    }
 }
